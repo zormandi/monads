@@ -1,49 +1,18 @@
 module Monads
   class PossiblyNil < Monad
 
-    def self.wrap(value)
+    def pass(&block)
       if value.nil?
-        DefinitelyNil.new
+        self
       else
-        NotNil.new value
-      end
-    end
-
-
-
-    class NotNil < PossiblyNil
-
-      def or_else(_)
-        value
-      end
-
-
-
-      def pass(&block)
         block.call value
       end
-
     end
 
 
-    class DefinitelyNil < PossiblyNil
 
-      def initialize
-        super nil
-      end
-
-
-
-      def or_else(default_value)
-        default_value
-      end
-
-
-
-      def pass(&block)
-        self
-      end
-
+    def self.wrap(value)
+      new value
     end
 
   end

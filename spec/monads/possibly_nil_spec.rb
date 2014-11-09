@@ -40,15 +40,5 @@ module Monads
       end
     end
 
-
-    describe "#or_else" do
-      it "should return the monad's value if it's not nil" do
-        expect(PossiblyNil.wrap(1).or_else(2)).to eq 1
-      end
-
-      it "should return the default value if the monad's value is nil" do
-        expect(PossiblyNil.wrap(nil).or_else(2)).to eq 2
-      end
-    end
   end
 end
