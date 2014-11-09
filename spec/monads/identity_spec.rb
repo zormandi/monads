@@ -13,10 +13,9 @@ describe Monads::Identity do
   end
 
   it "should obey the 3rd monad law" do
-    a = "a"
-    monad = described_class.wrap a
-    f = lambda { |value| described_class.wrap "f#{value}" }
-    g = lambda { |value| described_class.wrap "g#{value}" }
+    monad = described_class.wrap "some value"
+    f = ->(value) { described_class.wrap "f#{value}" }
+    g = ->(value) { described_class.wrap "g#{value}" }
 
     chained_result = monad.pass do |value|
       f.call value
