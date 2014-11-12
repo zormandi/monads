@@ -1,35 +1,21 @@
 require 'spec_helper'
 
-describe Monads::Identity do
+module Monads
+  describe Identity do
 
-  it "should obey the 1st monad law" do
-    described_class.wrap("wrapped value").pass { |value| expect(value).to eq "wrapped value" }
-  end
+    it_should_behave_like "a monad"
 
-  it "should obey the 2nd monad law" do
-    monad = described_class.wrap "wrapped value"
 
-    expect(monad.pass { |value| described_class.wrap value }).to eq monad
-  end
-
-  it "should obey the 3rd monad law" do
-    monad = described_class.wrap "some value"
-    f = ->(value) { described_class.wrap "f#{value}" }
-    g = ->(value) { described_class.wrap "g#{value}" }
-
-    chained_result = monad.pass do |value|
-      f.call value
-    end.pass do |value|
-      g.call value
+    it "should proxy method calls to the wrapped value and return a monad corresponding to the result" do
+      expect(Identity.unit("test value").length).to eq Identity.unit(10)
     end
 
-    nested_result = monad.pass do |v1|
-      f.call(v1).pass do |v2|
-        g.call v2
+
+    describe "#value" do
+      it "should return the wrapped value" do
+        expect(Identity.unit("test value").value).to eq "test value"
       end
     end
 
-    expect(nested_result).to eq chained_result
   end
-
 end

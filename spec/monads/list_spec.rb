@@ -3,43 +3,18 @@ require 'spec_helper'
 module Monads
   describe List do
 
-    it "should obey the 1st monad law" do
-      array = [1, 2, 3]
-      f = ->(value) { described_class.wrap "f#{value}" }
+    it_should_behave_like "a monad"
 
-      direct_result = f.call(array)
-      passed_result = described_class.wrap(array).pass { |value| f.call(value) }
 
-      expect(direct_result).to eq passed_result
+    it "should handle nested arrays without overly flattening or nesting them" do
+      expect(List.unit([[1, 2], [3, 4]]).bind { |value| List.unit value }).to eq List.unit([[1, 2], [3, 4]])
     end
 
 
-    it "should obey the 2nd monad law" do
-      monad = described_class.wrap [[1, 2], [3, 4]]
+    it "should send messages to all the values it contains" do
+      words = ["one", "two", "and three"]
 
-      expect(monad.pass { |value| described_class.wrap value }).to eq monad
-    end
-
-
-    it "should obey the 3rd monad law" do
-      a = "a"
-      monad = described_class.wrap a
-      f = ->(value) { described_class.wrap "f#{value}" }
-      g = ->(value) { described_class.wrap "g#{value}" }
-
-      chained_result = monad.pass do |value|
-        f.call value
-      end.pass do |value|
-        g.call value
-      end
-
-      nested_result = monad.pass do |v1|
-        f.call(v1).pass do |v2|
-          g.call v2
-        end
-      end
-
-      expect(nested_result).to eq chained_result
+      expect(many(*words).tr("o", "a").length.values).to eq [3, 3, 9]
     end
 
 

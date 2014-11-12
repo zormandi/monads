@@ -12,7 +12,7 @@ module Monads
 
 
     def fmap(&block)
-      pass { |value| self.class.wrap block.call value }
+      bind { |value| self.class.unit block.call value }
     end
 
 

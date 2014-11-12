@@ -1,2 +1,3 @@
-require 'monads/monad'
-Dir["#{File.dirname __FILE__}/../lib/monads/*.rb"].each { |file| require "monads/#{File.basename file, '.rb'}" }
+require 'monads'
+require 'shunts'
+Dir["#{File.dirname __FILE__}/support/**/*.rb"].sort.each { |f| require f }

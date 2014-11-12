@@ -1,7 +1,7 @@
 module Monads
-  class PossiblyNil < Monad
+  class Maybe < Monad
 
-    def pass(&block)
+    def bind(&block)
       if value.nil?
         self
       else
@@ -11,15 +11,9 @@ module Monads
 
 
 
-    def self.wrap(value)
+    def self.unit(value)
       new value
     end
 
   end
-end
-
-
-
-def possibly_nil(value)
-  PossiblyNil.wrap value
 end

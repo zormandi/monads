@@ -1,13 +1,13 @@
 module Monads
   class Identity < Monad
 
-    def pass
-      yield value
+    def bind(&block)
+      block.call value
     end
 
 
 
-    def self.wrap(value)
+    def self.unit(value)
       new value
     end
 

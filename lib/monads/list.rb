@@ -1,36 +1,24 @@
 module Monads
-  class List
+  class List < Monad
 
-    attr_reader :values
-
-
-
-    def initialize(values)
-      @values = values
-    end
+    alias_method :values, :value
 
 
 
-    def pass(&block)
-      self.class.new @values.map(&block).flat_map(&:values)
+    def bind(&block)
+      self.class.new values.map(&block).flat_map(&:values)
     end
 
 
 
     def +(list)
-      self.class.new @values + list.values
+      self.class.new values + list.values
     end
 
 
 
-    def ==(other)
-      (other.is_a? self.class) and (other.values == values)
-    end
-
-
-
-    def self.wrap(value)
-      new [value]
+    def self.unit(*values)
+      new values
     end
 
   end
