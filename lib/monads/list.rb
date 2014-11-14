@@ -5,20 +5,26 @@ module Monads
 
 
 
+    def initialize(*values)
+      super values
+    end
+
+
+
     def bind(&block)
-      self.class.new values.map(&block).flat_map(&:values)
+      self.class.unit *values.map(&block).flat_map(&:values)
     end
 
 
 
     def +(list)
-      self.class.new values + list.values
+      self.class.unit *(values + list.values)
     end
 
 
 
     def self.unit(*values)
-      new values
+      new *values
     end
 
   end

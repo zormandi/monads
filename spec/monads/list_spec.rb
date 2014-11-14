@@ -12,15 +12,15 @@ module Monads
 
 
     it "should send messages to all the values it contains" do
-      words = ["one", "two", "and three"]
+      headers = %w[HTTP_HOST HTTP_CONTENT_TYPE HTTP_DATE]
 
-      expect(many(*words).tr("o", "a").length.values).to eq [3, 3, 9]
+      expect(many(*headers)[5..-1].tr("_", "-").capitalize.values).to eq %w[Host Content-type Date]
     end
 
 
     describe "#+" do
       it "should concatenate two lists" do
-        expect(List.new([1, 2]) + List.new([3, 4])).to eq List.new([1, 2, 3, 4])
+        expect(List.unit(1, 2) + List.unit(3, 4)).to eq List.unit(1, 2, 3, 4)
       end
     end
 
