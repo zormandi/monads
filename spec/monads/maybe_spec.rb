@@ -19,7 +19,7 @@ module Monads
     it "should be chainable to allow sending messages to nil objects in nested data structures" do
       weather_forecast = nil
 
-      expect(possibly_nil(weather_forecast).state.capitol.weather.value).to be_nil
+      expect(Maybe.unit(weather_forecast).state.capitol.weather.value).to be_nil
     end
 
   end

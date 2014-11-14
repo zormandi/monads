@@ -14,7 +14,7 @@ module Monads
     it "should send messages to all the values it contains" do
       headers = %w[HTTP_HOST HTTP_CONTENT_TYPE HTTP_DATE]
 
-      expect(many(*headers)[5..-1].tr("_", "-").capitalize.values).to eq %w[Host Content-type Date]
+      expect(List.unit(*headers)[5..-1].tr("_", "-").capitalize.values).to eq %w[Host Content-type Date]
     end
 
 
