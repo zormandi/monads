@@ -1,12 +1,12 @@
 module Monads
   class List < Monad
 
-    alias_method :values, :value
+    attr_reader :values
 
 
 
     def initialize(*values)
-      super values
+      @values = values
     end
 
 
